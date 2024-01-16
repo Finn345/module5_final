@@ -42,12 +42,12 @@ def create_spacesuit(current_user_token):
     response = spacesuit_schema.dump(spacesuit)
     return jsonify(response)
 
-@api.route('/spacesuits/', methods=['GET'])
+@api.route('/spacesuits', methods=['GET'])
 @token_required
 def get_spacesuits(current_user_token):
-    owner = current_user_token.token
-    spacesuits = Spacesuit.query.filter_by(user_token = owner).all()
-    response = spacesuits_schema(spacesuits)
+    a_user = current_user_token.token
+    spacesuits = Spacesuit.query.filter_by(user_token = a_user).all()
+    response = spacesuits_schema.dump(spacesuits)
     return jsonify(response)
 
 @api.route('/spacesuits/<id>', methods = ['GET'])
@@ -55,7 +55,7 @@ def get_spacesuits(current_user_token):
 def get_vehicle(current_user_token, id):
     owner = current_user_token.token
     spacesuit = Spacesuit.query.get(id)
-    response = spacesuit_schema.dump(spacesuit)
+    response = spacesuits_schema.dump(spacesuit)
     return jsonify(response)
 
 @api.route('/spacesuits/<id>', methods = ['POST', 'PUT'])
